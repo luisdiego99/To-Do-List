@@ -1,0 +1,11 @@
+$primary: #5fbe3a;
+$secondary: #953bbe;
+
+@import "~bootstrap/scss/bootstrap";
+.card {
+    background-color: $primary !important;
+    margin-top: 30px;
+}
+.btn-info {
+    background-color: $secondary !important;
+}
