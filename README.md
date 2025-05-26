@@ -15,6 +15,13 @@ Estado válido, ID existente - 200 OK
 ![image](https://github.com/user-attachments/assets/c4a9bf02-4d03-4f2f-841f-2d0a9880280c)
 
 
-Estado inválido, ID inexistente - 404 Error
-![image](https://github.com/user-attachments/assets/b106b82c-2a5a-4f16-bdd3-5757790e1bc2)
+Estado inválido, ID inexistente - 400 Bad Request
+![image](https://github.com/user-attachments/assets/a5c1e509-595a-44b4-9746-eef180477685)
 
+
+Estado válido, Datos del Task válidos - 201 Created
+![image](https://github.com/user-attachments/assets/ffa3ad23-bea4-4ecf-bb97-90432f959cb1)
+
+
+Estádo inválido, Datos del Task inválidos - 400 Bad Request
+![image](https://github.com/user-attachments/assets/805cf038-c379-42b9-9c09-8123e7d66356)
