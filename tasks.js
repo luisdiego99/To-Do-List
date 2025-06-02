@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Task = require('../models/Task'); // You'll need to create this model similar to Goal
-
+const Task = require('../models/Task'); 
 router.get('/getTasks', async function(req, res, next) {
   try {
     const tasks = await Task.find();
