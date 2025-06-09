@@ -1,43 +1,54 @@
 var express = require('express');
-const  route  = require('.');
 var router = express.Router();
+const Task = require('../models/Task'); 
 
-let tasks = [
-    {
-        id: 1,
-        name: 'Task 1',
-        description: 'Description for Task 11111'
-    },
-    {
-        id: 2,
-        name: 'Task 2',
-        description: 'Description for Task 2'
-    },
-    {
-        id: 3,
-        name: 'Task 3',
-        description: 'Description for Task 3'
-    }
-]
-router.get('/getTasks', function(req, res, next) {
-
-    res.json(tasks);
-})
-
-router.delete('/deleteTask/:id', function(req, res, next) {
-    const taskId = parseInt(req.params.id);
-    tasks = tasks.filter(task => task.id !== taskId);
-    res.json({ message: 'Task deleted successfully' });
+router.get('/getTasks', async function(req, res, next) {
+  try {
+    const tasks = await Task.find();
+    res.status(200).json(tasks);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
-router.post('/addTask', function(req, res, next) {
-    const newTask = {
-        id: tasks.length + 1,
-        name: req.body.name,
-        description: req.body.description
-    };
-    tasks.push(newTask);
-    res.json({ message: 'Task added successfully', task: newTask });
+router.delete('/removeTask/:id', async function(req, res, next) {
+  try {
+    if (!req.params.id) {
+      return res.status(400).json({ error: 'Missing task ID' });
+    }
+    
+    const result = await Task.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.post('/addTask', async function(req, res, next) {
+  try {
+    const { name, description, dueDate } = req.body;
+    
+    if (!name || !description || !dueDate) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const newTask = new Task({
+      name,
+      description,
+      dueDate
+    });
+    
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Bad request' });
+  }
 });
 
 module.exports = router;
